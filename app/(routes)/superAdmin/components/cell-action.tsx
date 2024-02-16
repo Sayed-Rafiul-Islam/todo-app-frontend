@@ -1,6 +1,6 @@
 "use client"
 
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { ChevronsDown, ChevronsUp, Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 
 import { 
@@ -9,7 +9,7 @@ import {
     DropdownMenuItem, 
     DropdownMenuLabel, 
     DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { TaskColumn } from "./columns"
+import { UserColumn } from "./columns"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux"
 // import { deleteProduct } from "@/app/actions/products"
 
 interface CellActionProps {
-    data : TaskColumn
+    data : UserColumn
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -33,16 +33,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const onCopy = (id : string) => {
-        navigator.clipboard.writeText(id)
-        toast.success("Product id copied to the clipboard")
-    }
-
     const onDelete = async () => {
         dispatch(removeTaskLocal(data))
         try {
             setLoading(true)
-            await removeTask(data.id)
+            // await removeTask(data.id)
             toast.success("Product deleted.")
         } catch (error) {
             toast.error("Something went wrong.")
@@ -50,6 +45,25 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
             setLoading(false)
             setOpen(false)
         }
+    }
+
+    const handleRole = async () => {
+        if (data.role === "admin") {
+            console.log("user")
+        } else {
+            console.log("admin")
+        }
+        // dispatch(removeTaskLocal(data))
+        // try {
+        //     setLoading(true)
+        //     // await removeTask(data.id)
+        //     toast.success("Product deleted.")
+        // } catch (error) {
+        //     toast.error("Something went wrong.")
+        // } finally {
+        //     setLoading(false)
+        //     setOpen(false)
+        // }
     }
 
 
@@ -71,13 +85,20 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=> onCopy(data.id)}>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy id
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>router.push(`/admin/${data.id}`)}>
-                        <Edit className="h-4 w-4 mr-2" />
-                        Update
+                    <DropdownMenuItem onClick={handleRole}>
+                        {
+                            data.role === "admin" 
+                            ? 
+                            <>
+                                <ChevronsDown className="h-4 w-4 mr-2" />
+                                Demote
+                            </>
+                            : 
+                            <>
+                                <ChevronsUp className="h-4 w-4 mr-2" />
+                                Promote
+                            </>
+                        }
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />

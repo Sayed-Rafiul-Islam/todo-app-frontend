@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserClient } from "./components/client";
 
 interface User {
+    _id : string,
     email: string,
     userName: string,
     role: string
@@ -31,7 +32,6 @@ const SuperAdmin = () => {
         getUser()
     },[])
 
-    console.log(users)
 
     return ( 
         <div className="flex-col">
