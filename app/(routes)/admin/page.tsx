@@ -1,0 +1,67 @@
+"use client"
+import AccessProvider from '@/actions/accessProvider'
+import { useEffect, useState } from 'react'
+import {  useDispatch, useSelector } from 'react-redux'
+import ManageTask from '@/components/ManageTask'
+
+import { TaskColumn } from './components/columns'
+import { TaskClient } from './components/client'
+import { logoutUser } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
+import { getAssignedTasks } from '@/actions/tasks'
+
+interface User {
+  email: string,
+  name: string,
+  role: string
+}
+
+interface ManageTaskProps {
+  email : string
+}
+
+interface Task {
+  _id : string,
+  taskName : string,
+  taskDescription : string,
+  assignedBy : string,
+  assignedTo : string,
+  status : boolean
+}
+
+
+export default function ManageTasksRoot() {
+
+    const data : any  = useSelector((data) => data)
+    const dispatch = useDispatch()
+
+    const [tasks , setTasks] = useState([])
+    useEffect(()=>{
+        const getUser = async () =>{
+            const user = await AccessProvider(data.user.accessToken)
+            if (!(user.user.role === "admin")) {
+                dispatch(logoutUser())
+            }
+            const tasks = await getAssignedTasks(data.user.email)
+            setTasks(tasks)
+        }
+        getUser()
+    },[])
+
+    const formattedTasks : TaskColumn[] = tasks.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
+        id : _id,
+        label : taskName,
+        task : taskDescription,
+        tasker : assignedTo,
+        status
+    }))
+
+  return (
+      <div className="flex-col">
+          <div className="flex-1 p-8 pt-6 space-y-4">
+                <TaskClient data={formattedTasks} />
+          </div>
+      </div>
+  )
+}
+
