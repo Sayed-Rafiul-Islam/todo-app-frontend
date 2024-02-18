@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/redux/providers.js", "app/redux/slice.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/redux/providers.js", "app/redux/slice.tsx", "app/redux/slice.js"],
   "exclude": ["node_modules"]
 }
