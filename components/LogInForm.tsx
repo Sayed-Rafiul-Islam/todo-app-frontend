@@ -2,6 +2,7 @@
 
 import { loginUser } from "@/app/redux/slice"
 import { AppDispatch } from "@/app/redux/store"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
@@ -17,6 +18,7 @@ export default function LogInForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [ message, setMessage] = useState('')
+    const router = useRouter()
 
     const handleSubmit = async () => {
         setLoading(true)
@@ -39,7 +41,8 @@ export default function LogInForm() {
             } else {
                 setLoading(true)
                 setMessage("Login Successful")
-                window.location.assign('/')
+                // window.location.assign('/')
+                router.push("/")
             }
             
         } 

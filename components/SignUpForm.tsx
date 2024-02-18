@@ -2,6 +2,7 @@
 
 import { signupUser } from "@/app/redux/slice"
 import { AppDispatch } from "@/app/redux/store"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
@@ -11,6 +12,7 @@ export default function SignUpForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [ message, setMessage] = useState('')
+    const router = useRouter()
 
 
     const dispatch = useDispatch<AppDispatch>()
@@ -29,7 +31,8 @@ export default function SignUpForm() {
             else {
                 setLoading(true)
                 setMessage("User created successfully")
-                window.location.assign('/')
+                // window.location.assign('/')
+                router.push("/")
             }
         } 
     }
