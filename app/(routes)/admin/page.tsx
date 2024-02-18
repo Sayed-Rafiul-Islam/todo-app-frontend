@@ -32,7 +32,7 @@ export default function ManageTasksRoot() {
             }
         }
         getUser()
-    },[])
+    },[data?.user?.role, dispatch])
 
     const formattedTasks : TaskColumn[] = data.assignedTasks?.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
         id : _id,

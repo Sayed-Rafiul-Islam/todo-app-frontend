@@ -27,7 +27,7 @@ const ManageTask : React.FC<ManageTaskProps> = ({email}) => {
             setTasks(tasks)
         }
         getTasks()
-    },[])
+    },[email])
     
 
     const formattedTasks : TaskColumn[] = tasks.map(({_id,taskName,taskDescription,assignedTo} : Task) => ({

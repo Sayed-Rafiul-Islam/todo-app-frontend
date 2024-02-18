@@ -26,7 +26,7 @@ const SuperAdminRoot = () => {
             }
         }
         getUser()
-    },[])
+    },[data?.user?.role, dispatch])
 
     const users = data.users?.filter((user : User)  => user.role !== "superAdmin")
 

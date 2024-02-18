@@ -28,7 +28,7 @@ export default function User() {
             }
         }
         getUser()
-    },[])
+    },[data?.user?.role, dispatch])
 
     const formattedMyTasks : TaskColumn[] = data.myTasks.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
         id : _id,
