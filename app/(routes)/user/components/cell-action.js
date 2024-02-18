@@ -22,13 +22,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { AppDispatch } from "@/app/redux/store"
 // import { deleteProduct } from "@/app/actions/products"
 
-interface CellActionProps {
-    data : TaskColumn
-}
 
-export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const dispatch = useDispatch<AppDispatch>()
+export const CellAction = ({data}) => {
+
+    const dispatch = useDispatch()
 
     const [checked, setChecked] = useState(data.status)
 
