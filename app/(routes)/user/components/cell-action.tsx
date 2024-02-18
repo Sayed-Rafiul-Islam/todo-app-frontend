@@ -19,6 +19,7 @@ import { removeTaskLocal, updateMyTask, updateMyTaskLocal } from "@/app/redux/sl
 import { useDispatch } from "react-redux"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { AppDispatch } from "@/app/redux/store"
 // import { deleteProduct } from "@/app/actions/products"
 
 interface CellActionProps {

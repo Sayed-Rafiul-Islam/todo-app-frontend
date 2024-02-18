@@ -6,6 +6,7 @@ import {  useDispatch, useSelector } from 'react-redux'
 import { TaskColumn } from './components/columns'
 import { TaskClient } from './components/client'
 import { logoutUser } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
 
 
 interface Task {

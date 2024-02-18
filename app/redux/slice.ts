@@ -12,11 +12,11 @@ interface User {
 }
 
 interface Task {
-    _id : string,
-    taskName : string,
-    taskDescription : string,
-    assignedBy : string,
-    assignedTo : string,
+    _id ?: string,
+    taskName ?: string,
+    taskDescription ?: string,
+    assignedBy ?: string,
+    assignedTo ?: string,
     status : boolean
   }
 
