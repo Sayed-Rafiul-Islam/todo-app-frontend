@@ -40,14 +40,14 @@ const initialState : RootState = {
 
 // auth 
 
-export const signupUser = createAsyncThunk("signupUser", async (userData) => {
+export const signupUser = createAsyncThunk("signupUser", async (userData : User) => {
     const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/signupUser`,userData)
     if ( status === 200) {
         localStorage.setItem("user", JSON.stringify(data))
     }
     return data
 })
-export const loginUser = createAsyncThunk("loginUser", async (userData) => {
+export const loginUser = createAsyncThunk("loginUser", async (userData : User) => {
     const {data,status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/login`,userData)
     if ( status === 200) {
         localStorage.setItem("user", JSON.stringify(data))

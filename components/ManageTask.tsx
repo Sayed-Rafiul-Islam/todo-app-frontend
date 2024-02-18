@@ -1,8 +1,8 @@
 "use client"
 
 import { getAssignedTasks } from "@/actions/tasks";
-import { TaskClient } from "@/app/(root)/addTasks/components/client";
-import { TaskColumn } from "@/app/(root)/addTasks/components/columns";
+import { TaskClient } from "@/app/(routes)/user/components/client";
+import { TaskColumn } from "@/app/(routes)/user/components/columns";
 import { useEffect, useState } from "react";
 
 interface ManageTaskProps {

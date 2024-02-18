@@ -9,7 +9,7 @@ export type TaskColumn = {
     label : string,
     task : string,
     tasker : string,
-    status : boolean
+    status ?: boolean
 }
 
 export const columns: ColumnDef<TaskColumn>[] = [

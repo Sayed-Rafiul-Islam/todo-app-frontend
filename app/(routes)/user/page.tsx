@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TaskColumn } from './components/columns'
 import { TaskClient } from './components/client'
+import { AppDispatch } from '@/app/redux/store'
 
 interface Task {
     _id : string,
