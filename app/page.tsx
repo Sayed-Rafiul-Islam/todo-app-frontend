@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers, getAssignedTasks, getMyTasks } from './redux/slice'
+import { AppDispatch } from './redux/store'
 
 
 export default function RootPage() {
@@ -21,7 +22,7 @@ export default function RootPage() {
         dispatch(getAllUsers())
         router.push('/superAdmin')
     } else {
-        // router.push('/authentication')
+        router.push('/authentication')
     }    
     return null
 }
