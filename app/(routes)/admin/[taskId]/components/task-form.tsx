@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import AccessProvider from '@/actions/accessProvider'
 import { removeTask, updateTask } from '@/actions/tasks'
 import { addTaskLocal, createTask, removeTaskLocal, updateTaskLocal } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>
@@ -63,7 +64,7 @@ export const TaskForm : React.FC<TaskFormProps> = ({
     initialData
 }) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const {user,users} : any  = useSelector((data) => data)
     const data = users.filter((user : User)  => user.role === "user")
