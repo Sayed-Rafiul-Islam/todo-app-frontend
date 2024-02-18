@@ -24,5 +24,7 @@ export default function RootPage() {
     } else {
         router.push('/authentication')
     }    
-    return null
+    return (
+        <div></div>
+    )
 }
