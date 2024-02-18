@@ -18,6 +18,7 @@ import { removeTask } from "@/actions/tasks"
 import { removeTaskLocal, removeUser, updateRole } from "@/app/redux/slice"
 import { useDispatch } from "react-redux"
 import { RoleAlertModal } from "@/components/modals/role-alert-modal"
+import { AppDispatch } from "@/app/redux/store"
 
 interface CellActionProps {
     data : UserColumn

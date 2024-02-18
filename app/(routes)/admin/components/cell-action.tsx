@@ -17,6 +17,7 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { removeTask } from "@/actions/tasks"
 import { removeTaskLocal } from "@/app/redux/slice"
 import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/app/redux/store"
 // import { deleteProduct } from "@/app/actions/products"
 
 interface CellActionProps {

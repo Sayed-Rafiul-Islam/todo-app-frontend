@@ -4,11 +4,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface User {
-    _id : string,
-    email: string,
-    userName: string,
-    role: string,
-    password : string
+    _id ?: string,
+    email?: string,
+    userName?: string,
+    role?: string,
+    password ?: string
 }
 
 interface Task {
