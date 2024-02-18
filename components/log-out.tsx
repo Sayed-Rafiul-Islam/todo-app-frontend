@@ -1,30 +1,27 @@
 "use client"
-import AccessProvider from "@/actions/accessProvider";
-import { getAssignedTasks, logoutUser } from "@/app/redux/slice";
+import { logoutUser } from "@/app/redux/slice";
 import { AppDispatch } from "@/app/redux/store";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 
-
-
 const LogOut = () => {
-    const router = useRouter()
     const pathname = usePathname()
     const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
 
-    const logout = () => {
-        localStorage.removeItem("user")
-        router.push("/authentication")
+    const logOut = () => {
+        router.push('/authentication')
+        dispatch(logoutUser())
     }
     return ( 
         <div className="flex mr-4">
             <button className={cn(
                 "bg-red-500 py-1 px-3 rounded-sm text-white hover:bg-red-600 transition-all",
                 pathname === "/authentication" ? "hidden" : "block"
-            )} onClick={()=>dispatch(logoutUser())}>Log out</button>
+            )} onClick={logOut}>Log out</button>
         </div>
      );
 }

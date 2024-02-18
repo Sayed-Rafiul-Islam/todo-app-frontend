@@ -125,8 +125,6 @@ const Slice = createSlice({
     reducers : {
         // auth 
         logoutUser : (state : RootState , action : PayloadAction<Task> ) => {
-            console.log(state)
-            window.location.assign("/authentication")
             typeof window !== "undefined" && localStorage.removeItem("user")
         },
         // ---------------------------------------------------------------------------------------------------
