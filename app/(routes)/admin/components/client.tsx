@@ -21,7 +21,7 @@ export const TaskClient : React.FC<TaskClientProps> = ({data}) => {
             <div className="flex items-center justify-between">
                 <Heading
                     title={`Tasks ${(data.length)}`}
-                    description="Manage Tasks for your store"
+                    description="Manage user tasks"
                 />
                 <Button onClick={()=>router.push(`/admin/new`)}>
                     <Plus className="mr-2 h-4 w-4" />

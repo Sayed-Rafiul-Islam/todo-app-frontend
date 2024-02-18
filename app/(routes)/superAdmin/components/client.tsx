@@ -20,8 +20,8 @@ export const UserClient : React.FC<UserClientProps> = ({data}) => {
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Users ${(data.length)}`}
-                    description="Manage Users for your store"
+                    title={`Total Users ${(data.length)}`}
+                    description="Manage admins and users"
                 />
                 <Button onClick={()=>router.push(`/superAdmin/new`)}>
                     <Plus className="mr-2 h-4 w-4" />

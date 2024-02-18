@@ -14,27 +14,23 @@ interface UpdatedTask {
 }
 
 export const updateTask = async (updatedTask : UpdatedTask) => {
-    const {status} =  await axios.patch(`http://localhost:5000/api/updateTask`,updatedTask)
+    const {status} =  await axios.patch(`${process.env.NEXT_PUBLIC_API}/updateTask`,updatedTask)
     return status
 }
-// export const updateMyTask = async (updatedTask : {id : string, status : boolean}) => {
-//     const {status} =  await axios.patch(`http://localhost:5000/api/updateMyTask`,updatedTask)
-//     return status
-// }
 
 export const removeTask = async (taskId : string | string[]) => {
-    const {status} =  await axios.delete(`http://localhost:5000/api/removeTask?taskId=${taskId}`)
+    const {status} =  await axios.delete(`${process.env.NEXT_PUBLIC_API}/removeTask?taskId=${taskId}`)
     return status
 }
 
 
 export const getAssignedTasks = async (email : string) => {
-    const {data,status} = await axios(`http://localhost:5000/api/getAssignedTasks?email=${email}`)
+    const {data,status} = await axios(`${process.env.NEXT_PUBLIC_API}/getAssignedTasks?email=${email}`)
     return data
 }
 
 export const getTaskById = async (taskId : string) => {
-    const {data} = await axios(`http://localhost:5000/api/getTaskById?taskId=${taskId}`)
+    const {data} = await axios(`${process.env.NEXT_PUBLIC_API}/getTaskById?taskId=${taskId}`)
     return data
 }
 

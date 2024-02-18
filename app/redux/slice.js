@@ -17,14 +17,14 @@ const initialState = {
 // auth 
 
 export const signupUser = createAsyncThunk("signupUser", async (userData) => {
-    const {data, status} = await axios.post("http://localhost:5000/api/signupUser",userData)
+    const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/signupUser`,userData)
     if ( status === 200) {
         localStorage.setItem("user", JSON.stringify(data))
     }
     return data
 })
 export const loginUser = createAsyncThunk("loginUser", async (userData) => {
-    const {data,status} = await axios.post("http://localhost:5000/api/login",userData)
+    const {data,status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/login`,userData)
     if ( status === 200) {
         localStorage.setItem("user", JSON.stringify(data))
 
@@ -38,22 +38,22 @@ export const loginUser = createAsyncThunk("loginUser", async (userData) => {
 // task
 
 export const createTask = createAsyncThunk("createTask", async (newTask) => {
-    const {data,status} = await axios.post(`http://localhost:5000/api/createTask`,newTask)
+    const {data,status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/createTask`,newTask)
     return data
 })
 export const getAssignedTasks = createAsyncThunk("getAssignedTasks", async (email) => {
-    const {data,status} = await axios(`http://localhost:5000/api/getAssignedTasks?email=${email}`)
+    const {data,status} = await axios(`${process.env.NEXT_PUBLIC_API}/getAssignedTasks?email=${email}`)
     localStorage.removeItem("assignedTasks")
     localStorage.setItem("assignedTasks", JSON.stringify(data))
     return data
 })
 
 export const updateMyTask = createAsyncThunk("updateMyTask", async (updatedTask) => {
-    const {data,status} = await axios.patch(`http://localhost:5000/api/updateMyTask`,updatedTask)
+    const {data,status} = await axios.patch(`${process.env.NEXT_PUBLIC_API}/updateMyTask`,updatedTask)
     return data
 })
 export const getMyTasks = createAsyncThunk("getMyTasks", async (email) => {
-    const {data,status} = await axios(`http://localhost:5000/api/getMyTasks?email=${email}`)
+    const {data,status} = await axios(`${process.env.NEXT_PUBLIC_API}/getMyTasks?email=${email}`)
     localStorage.removeItem("myTasks")
     localStorage.setItem("myTasks", JSON.stringify(data))
     return data
@@ -62,24 +62,24 @@ export const getMyTasks = createAsyncThunk("getMyTasks", async (email) => {
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
-    const {data,status} = await axios(`http://localhost:5000/api/getUsers`)
+    const {data,status} = await axios(`${process.env.NEXT_PUBLIC_API}/getUsers`)
     localStorage.removeItem("users")
     localStorage.setItem("users", JSON.stringify(data))
     return data
 })
 
 export const createUser = createAsyncThunk("createUser", async (newUser) => {
-    const {data,status} = await axios.post(`http://localhost:5000/api/createUser`,newUser)
+    const {data,status} = await axios.post(`${process.env.NEXT_PUBLIC_API}/createUser`,newUser)
     return data
 })
 
 export const updateRole = createAsyncThunk("updateRole", async (updatedUser) => {
-    const {data,status} = await axios.patch(`http://localhost:5000/api/updateRole`,updatedUser)
+    const {data,status} = await axios.patch(`${process.env.NEXT_PUBLIC_API}/updateRole`,updatedUser)
     return data
 })
 
 export const removeUser = createAsyncThunk("removeUser", async (_id) => {
-    const {data,status} = await axios.delete(`http://localhost:5000/api/removeUser?_id=${_id}`)
+    const {data,status} = await axios.delete(`${process.env.NEXT_PUBLIC_API}/removeUser?_id=${_id}`)
     return data
 })
 

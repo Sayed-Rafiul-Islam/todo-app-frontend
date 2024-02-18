@@ -19,7 +19,7 @@ const LogOut = () => {
         router.push("/authentication")
     }
     return ( 
-        <div className="flex justify-end mr-8 mt-4">
+        <div className="flex mr-4">
             <button className={cn(
                 "bg-red-500 py-1 px-3 rounded-sm text-white hover:bg-red-600 transition-all",
                 pathname === "/authentication" ? "hidden" : "block"

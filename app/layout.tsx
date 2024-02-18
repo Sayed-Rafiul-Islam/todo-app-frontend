@@ -5,6 +5,8 @@ import { Providers } from '@/app/redux/providers'
 import Navbar from "@/components/log-out";
 import { Toaster } from "react-hot-toast";
 import LogOut from "@/components/log-out";
+import { ThemeProvider } from "@/provider/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,11 +26,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <LogOut />
-            {children}
-            <Toaster />
-          </Providers>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Providers>
+              <div className="flex justify-end items-center mt-4 mr-8">
+                <LogOut />
+                <ThemeToggle />
+              </div>
+              {children}
+              <Toaster />
+            </Providers>
+      </ThemeProvider>
+        
         </body>
     </html>
   );

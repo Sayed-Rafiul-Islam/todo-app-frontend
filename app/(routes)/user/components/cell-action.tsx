@@ -29,7 +29,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const dispatch = useDispatch()
 
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState(data.status)
 
     const onCheck = async () => {
         setChecked(!checked)
@@ -38,7 +38,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
             status : !checked
         }
         dispatch(updateMyTask(updatedData))
-        // dispatch(updateMyTaskLocal(updatedData))
         if (!checked) {
             toast.success("Marked as done.")
         } else {

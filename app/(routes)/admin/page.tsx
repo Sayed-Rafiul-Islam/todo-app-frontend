@@ -1,24 +1,12 @@
 "use client"
 import AccessProvider from '@/actions/accessProvider'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {  useDispatch, useSelector } from 'react-redux'
-import ManageTask from '@/components/ManageTask'
 
 import { TaskColumn } from './components/columns'
 import { TaskClient } from './components/client'
 import { logoutUser } from '@/app/redux/slice'
-import { AppDispatch } from '@/app/redux/store'
-import { getAssignedTasks } from '@/actions/tasks'
 
-interface User {
-  email: string,
-  name: string,
-  role: string
-}
-
-interface ManageTaskProps {
-  email : string
-}
 
 interface Task {
   _id : string,
