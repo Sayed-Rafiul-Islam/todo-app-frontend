@@ -26,6 +26,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import AccessProvider from '@/actions/accessProvider'
 import { addUserLocal, createUser } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>
