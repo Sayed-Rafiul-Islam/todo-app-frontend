@@ -8,7 +8,7 @@ import { getAllUsers, getAssignedTasks, getMyTasks } from './redux/slice'
 export default function RootPage() {
     const router = useRouter()
     const data : any = useSelector((data) => data)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     if ( data.user.role === "user") {
         dispatch(getMyTasks(data.user.email))

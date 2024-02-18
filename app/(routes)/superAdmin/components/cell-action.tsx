@@ -25,7 +25,7 @@ interface CellActionProps {
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     
     const router = useRouter()

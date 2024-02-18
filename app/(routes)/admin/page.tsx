@@ -22,7 +22,7 @@ export default function ManageTasksRoot() {
 
 
     const data : any  = useSelector((data) => data)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     useEffect(()=>{
         const getUser = async () =>{

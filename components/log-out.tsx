@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 const LogOut = () => {
     const router = useRouter()
     const pathname = usePathname()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const logout = () => {
         localStorage.removeItem("user")

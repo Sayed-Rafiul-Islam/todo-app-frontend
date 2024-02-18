@@ -7,7 +7,7 @@ import { addUser } from '@/app/redux/slice'
 
 
 export default function AddUsers() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

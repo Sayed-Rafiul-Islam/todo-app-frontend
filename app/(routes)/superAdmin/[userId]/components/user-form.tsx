@@ -49,7 +49,7 @@ const formSchema = z.object({
 export const UserForm = ({
 }) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const {users} : any = useSelector((data) => data)
 
     const router = useRouter()

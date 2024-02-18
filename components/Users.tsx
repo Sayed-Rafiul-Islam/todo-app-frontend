@@ -26,7 +26,7 @@ export default function Users() {
       // console.log(users)
     }
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
   return (
     <div className='border-slate-800 border-t w-11/12 mx-auto p-10'>
             {   
