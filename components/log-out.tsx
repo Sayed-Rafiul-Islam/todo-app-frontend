@@ -1,6 +1,7 @@
 "use client"
 import AccessProvider from "@/actions/accessProvider";
 import { getAssignedTasks, logoutUser } from "@/app/redux/slice";
+import { AppDispatch } from "@/app/redux/store";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
