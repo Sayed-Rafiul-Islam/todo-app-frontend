@@ -31,7 +31,7 @@ interface RootState {
 const { createSlice, current } = require("@reduxjs/toolkit");
 
 const initialState : RootState = {
-    user : typeof window !== "undefined" && (localStorage.getItem("user") ? JSON.parse(localStorage.getItem<>("user")) : []),
+    user : typeof window !== "undefined" && (localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : []),
     assignedTasks : typeof window !== "undefined" && (localStorage.getItem("assignedTasks") ? JSON.parse(localStorage.getItem("assignedTasks")) : []),
     myTasks : typeof window !== "undefined" && (localStorage.getItem("myTasks") ? JSON.parse(localStorage.getItem("myTasks")) : []),
     users : typeof window !== "undefined" && (localStorage.getItem("users") ? JSON.parse(localStorage.getItem("users")) : []),
