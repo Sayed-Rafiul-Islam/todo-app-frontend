@@ -1,10 +1,10 @@
 "use client"
 import AccessProvider from "@/actions/accessProvider";
-import { getUsers } from "@/actions/users";
-import { logoutUser } from "@/app/redux/slice";
-import { useEffect, useState } from "react";
+import { getAllUsers, logoutUser } from "@/app/redux/slice";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserClient } from "./components/client";
+import { Dispatch } from "@reduxjs/toolkit";
 
 interface User {
     _id : string,
@@ -13,24 +13,22 @@ interface User {
     role: string
   }
 
-const SuperAdmin = () => {
-    const data : any = useSelector((data) => data)
-    const dispatch = useDispatch()
 
-    const [users, setUsers ] = useState([])
+const SuperAdminRoot = () => {
+    const data : any = useSelector((data) => data)
+    const dispatch = useDispatch<Dispatch>()
 
     useEffect(()=>{
         const getUser = async () =>{
             const user = await AccessProvider(data.user.accessToken)
-            if (!(user.user.role === "superAdmin")) {
+            if (!(user?.user?.role === "superAdmin")) {
                 dispatch(logoutUser())
             }
-            const allUsers = await getUsers()
-            const users = allUsers.filter((user : User)  => user.role !== "superAdmin")
-            setUsers(users)
         }
         getUser()
     },[])
+
+    const users = data.users?.filter((user : User)  => user.role !== "superAdmin")
 
 
     return ( 
@@ -42,4 +40,4 @@ const SuperAdmin = () => {
      );
 }
  
-export default SuperAdmin;
+export default SuperAdminRoot;

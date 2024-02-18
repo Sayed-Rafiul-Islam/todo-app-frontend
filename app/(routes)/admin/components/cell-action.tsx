@@ -39,10 +39,10 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     }
 
     const onDelete = async () => {
-        dispatch(removeTaskLocal(data))
         try {
             setLoading(true)
             await removeTask(data.id)
+            dispatch(removeTaskLocal(data))
             toast.success("Product deleted.")
         } catch (error) {
             toast.error("Something went wrong.")

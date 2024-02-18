@@ -8,19 +8,21 @@ const { createSlice, current } = require("@reduxjs/toolkit");
 
 const initialState = {
     user : typeof window !== "undefined" && (localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : []),
-    assignedTasks : [],
-    myTasks : []
+    assignedTasks : typeof window !== "undefined" && (localStorage.getItem("assignedTasks") ? JSON.parse(localStorage.getItem("assignedTasks")) : []),
+    myTasks : typeof window !== "undefined" && (localStorage.getItem("myTasks") ? JSON.parse(localStorage.getItem("myTasks")) : []),
+    users : typeof window !== "undefined" && (localStorage.getItem("users") ? JSON.parse(localStorage.getItem("users")) : []),
 }
 
-export const createUser = createAsyncThunk("createUser", async (userData) => {
-    const {data, status} = await axios.post("http://localhost:5000/api/createUser",userData)
+
+// auth 
+
+export const signupUser = createAsyncThunk("signupUser", async (userData) => {
+    const {data, status} = await axios.post("http://localhost:5000/api/signupUser",userData)
     if ( status === 200) {
         localStorage.setItem("user", JSON.stringify(data))
     }
     return data
 })
-
-
 export const loginUser = createAsyncThunk("loginUser", async (userData) => {
     const {data,status} = await axios.post("http://localhost:5000/api/login",userData)
     if ( status === 200) {
@@ -30,13 +32,54 @@ export const loginUser = createAsyncThunk("loginUser", async (userData) => {
     return data
 })
 
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+// task
+
+export const createTask = createAsyncThunk("createTask", async (newTask) => {
+    const {data,status} = await axios.post(`http://localhost:5000/api/createTask`,newTask)
+    return data
+})
 export const getAssignedTasks = createAsyncThunk("getAssignedTasks", async (email) => {
     const {data,status} = await axios(`http://localhost:5000/api/getAssignedTasks?email=${email}`)
+    localStorage.removeItem("assignedTasks")
+    localStorage.setItem("assignedTasks", JSON.stringify(data))
     return data
 })
 
+export const updateMyTask = createAsyncThunk("updateMyTask", async (updatedTask) => {
+    const {data,status} = await axios.patch(`http://localhost:5000/api/updateMyTask`,updatedTask)
+    return data
+})
 export const getMyTasks = createAsyncThunk("getMyTasks", async (email) => {
     const {data,status} = await axios(`http://localhost:5000/api/getMyTasks?email=${email}`)
+    localStorage.removeItem("myTasks")
+    localStorage.setItem("myTasks", JSON.stringify(data))
+    return data
+})
+
+// ------------------------------------------------------------------------------------------------------------------------------------
+
+export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
+    const {data,status} = await axios(`http://localhost:5000/api/getUsers`)
+    localStorage.removeItem("users")
+    localStorage.setItem("users", JSON.stringify(data))
+    return data
+})
+
+export const createUser = createAsyncThunk("createUser", async (newUser) => {
+    const {data,status} = await axios.post(`http://localhost:5000/api/createUser`,newUser)
+    return data
+})
+
+export const updateRole = createAsyncThunk("updateRole", async (updatedUser) => {
+    const {data,status} = await axios.patch(`http://localhost:5000/api/updateRole`,updatedUser)
+    return data
+})
+
+export const removeUser = createAsyncThunk("removeUser", async (_id) => {
+    const {data,status} = await axios.delete(`http://localhost:5000/api/removeUser?_id=${_id}`)
     return data
 })
 
@@ -45,12 +88,18 @@ const Slice = createSlice({
     name : "addUserSlice",
     initialState,
     reducers : {
+        // auth 
         logoutUser : (state , action ) => {
             window.location.assign("/authentication")
             typeof window !== "undefined" && localStorage.removeItem("user")
         },
+        // ---------------------------------------------------------------------------------------------------
+
+        // tasks
         addTaskLocal : (state , action ) => {
             state.assignedTasks.push(action.payload)
+            localStorage.removeItem("assignedTasks")
+            localStorage.setItem("assignedTasks", JSON.stringify(current(state.assignedTasks)))
         },
         updateTaskLocal : (state , action ) => {
             const data = state.assignedTasks.filter((task ) => task._id !== action.payload.taskId)
@@ -62,30 +111,24 @@ const Slice = createSlice({
             }
             data.push(updatedData)
             state.assignedTasks = data
-
-            // state.assignedTasks.push(action.payload)
+            localStorage.removeItem("assignedTasks")
+            localStorage.setItem("assignedTasks", JSON.stringify(data))
         },
         removeTaskLocal : (state , action ) => {
-            const data = state.assignedTasks.filter((task ) => task._id !== action.payload.id)
+            const data = state.assignedTasks.filter((task ) => task._id !== action.payload[0]._id)
+            localStorage.removeItem("assignedTasks")
+            localStorage.setItem("assignedTasks", JSON.stringify(data))
             state.assignedTasks = data
         },
         updateMyTaskLocal : (state , action ) => {
             const index = state.myTasks.findIndex((task) => task._id === action.payload.id)
             state.myTasks[index].status = action.payload.status
-            // console.log(current(updateMyTaskLocal))
-            // state.assignedTasks = data
         },
-        removeUser : (state , action ) => {
-           const data = state.user.filter((user ) => user.id !== action.payload)
-           state.user = data
-           const {users} = (current(state))
-           let usersData = JSON.stringify(users)
-           localStorage.removeItem("users")
-           localStorage.setItem("users", usersData)
-        }
+        // ---------------------------------------------------------------------------------------------------
     },
     extraReducers : (builder ) => {
-        builder.addCase(createUser.fulfilled,(state ,action ) => {
+        // auth -----------------------------------------------------------------
+        builder.addCase(signupUser.fulfilled,(state ,action ) => {
             state.isLoading = false,
             state.user = action.payload
         }),
@@ -93,6 +136,9 @@ const Slice = createSlice({
             state.isLoading = false,
             state.user = action.payload     
         }),
+        // ----------------------------------------------------------------------------
+
+        // tasks --------------------------------------------------------------------------------------
         builder.addCase(getAssignedTasks.fulfilled,(state, action) => {
             state.isLoading = false,
             state.assignedTasks = action.payload           
@@ -100,9 +146,55 @@ const Slice = createSlice({
         builder.addCase(getMyTasks.fulfilled,(state, action) => {
             state.isLoading = false,
             state.myTasks = action.payload           
+        }),
+        builder.addCase(getAllUsers.fulfilled,(state, action) => {
+            state.isLoading = false,
+            state.users = action.payload           
+        }),
+        builder.addCase(createTask.fulfilled,(state, action) => {
+            state.isLoading = false,
+            state.assignedTasks.push(action.payload)      
+            localStorage.removeItem("assignedTasks")
+            localStorage.setItem("assignedTasks", JSON.stringify(current(state.assignedTasks)))    
+        }),
+
+        //  user ----------------------------------------------------------------------------------------
+        builder.addCase(createUser.fulfilled,(state, action) => {
+            state.isLoading = false,
+            state.users.push(action.payload)      
+            localStorage.removeItem("users")
+            localStorage.setItem("users", JSON.stringify(current(state.users)))    
+        }),
+        builder.addCase(removeUser.fulfilled,(state, action) => {
+            state.isLoading = false
+            const data = state.users?.filter((user) => user._id !== action.payload._id)
+            state.users = data
+            localStorage.removeItem("users")
+            localStorage.setItem("users", JSON.stringify(data))    
+        })
+        builder.addCase(updateRole.fulfilled,(state, action) => {
+            state.isLoading = false
+            const index = state.users.findIndex(user => user._id === action.payload._id)
+            state.users[index] = action.payload
+            localStorage.removeItem("users")
+            localStorage.setItem("users", JSON.stringify(current(state.users)))    
+        })
+        builder.addCase(updateMyTask.fulfilled,(state, action) => {
+            state.isLoading = false
+            const index = state.myTasks.findIndex(task => task._id === action.payload._id)
+            state.myTasks[index] = action.payload
+            localStorage.removeItem("myTasks")
+            localStorage.setItem("myTasks", JSON.stringify(current(state.myTasks)))    
         })
     }
 })
 
-export const {addTaskLocal,updateTaskLocal,removeUser,removeTaskLocal,updateMyTaskLocal,logoutUser} = Slice.actions
+export const {
+    addTaskLocal,
+    updateTaskLocal,
+    removeTaskLocal,
+    updateMyTaskLocal,
+    logoutUser,
+    addUserLocal,
+} = Slice.actions
 export default Slice.reducer

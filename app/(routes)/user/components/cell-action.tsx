@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { removeTask, updateMyTask } from "@/actions/tasks"
-import { removeTaskLocal, updateMyTaskLocal } from "@/app/redux/slice"
+import { removeTask } from "@/actions/tasks"
+import { removeTaskLocal, updateMyTask, updateMyTaskLocal } from "@/app/redux/slice"
 import { useDispatch } from "react-redux"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -34,11 +34,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const onCheck = async () => {
         setChecked(!checked)
         const updatedData = {
-            id : data.id,
+            _id : data.id,
             status : !checked
         }
-        await updateMyTask(updatedData)
-        dispatch(updateMyTaskLocal(updatedData))
+        dispatch(updateMyTask(updatedData))
+        // dispatch(updateMyTaskLocal(updatedData))
         if (!checked) {
             toast.success("Marked as done.")
         } else {

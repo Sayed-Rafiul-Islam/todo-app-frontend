@@ -1,6 +1,6 @@
 "use client"
 
-import { createUser } from "@/app/redux/slice"
+import { signupUser } from "@/app/redux/slice"
 import { AppDispatch } from "@/app/redux/store"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -21,7 +21,7 @@ export default function SignUpForm() {
             setMessage("Fill in all the fields")
         }
         else {
-            const data : any = await dispatch(createUser({name,email,password}))
+            const data : any = await dispatch(signupUser({name,email,role : "user",password}))
             if (data?.error) {
                 setLoading(false)
                 setMessage("Email already in use")

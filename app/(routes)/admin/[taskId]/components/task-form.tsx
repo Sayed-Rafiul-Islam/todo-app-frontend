@@ -25,8 +25,8 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux'
 import AccessProvider from '@/actions/accessProvider'
-import { createTask, removeTask, updateTask } from '@/actions/tasks'
-import { addTaskLocal, updateTaskLocal } from '@/app/redux/slice'
+import { removeTask, updateTask } from '@/actions/tasks'
+import { addTaskLocal, createTask, removeTaskLocal, updateTaskLocal } from '@/app/redux/slice'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>
@@ -49,7 +49,6 @@ interface User {
 
 interface TaskFormProps {
     initialData: Task | null,
-    users : User[]
 }
 
 const formSchema = z.object({
@@ -61,13 +60,13 @@ const formSchema = z.object({
 
 
 export const TaskForm : React.FC<TaskFormProps> = ({
-    initialData,
-    users
+    initialData
 }) => {
 
     const dispatch = useDispatch()
 
-    const {user} : any  = useSelector((data) => data)
+    const {user,users} : any  = useSelector((data) => data)
+    const data = users.filter((user : User)  => user.role === "user")
 
     const router = useRouter()
     const {taskId} = useParams()
@@ -109,8 +108,7 @@ export const TaskForm : React.FC<TaskFormProps> = ({
                     assignedBy : user.email,
                     status : false
                 }
-                dispatch(addTaskLocal(newtask))
-                await createTask(newtask)
+                dispatch(createTask(newtask))
             }
 
             router.push(`/admin`)
@@ -126,8 +124,8 @@ export const TaskForm : React.FC<TaskFormProps> = ({
         try {
             setLoading(true)
             await removeTask(taskId)
-            router.push(`/addTasks`)
-            router.refresh()
+            dispatch(removeTaskLocal(initialData))
+            router.push(`/admin`)
             toast.success("task deleted.")
         } catch (error) {
             toast.error("Something went wrong")
@@ -215,7 +213,7 @@ export const TaskForm : React.FC<TaskFormProps> = ({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {users.map(({_id,email, userName})=>(
+                                                {data.map(({_id,email, userName} : User)=>(
                                                     <SelectItem key={_id} value={email} >
                                                         {userName}
                                                     </SelectItem>

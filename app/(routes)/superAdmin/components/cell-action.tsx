@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { removeTask } from "@/actions/tasks"
-import { removeTaskLocal } from "@/app/redux/slice"
+import { removeTaskLocal, removeUser, updateRole } from "@/app/redux/slice"
 import { useDispatch } from "react-redux"
-// import { deleteProduct } from "@/app/actions/products"
+import { RoleAlertModal } from "@/components/modals/role-alert-modal"
 
 interface CellActionProps {
     data : UserColumn
@@ -31,14 +31,15 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const router = useRouter()
 
     const [open, setOpen] = useState(false)
+    const [roleModal, setRoleModal] = useState(false)
+    const [action, setAction] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
-        dispatch(removeTaskLocal(data))
         try {
             setLoading(true)
-            // await removeTask(data.id)
-            toast.success("Product deleted.")
+            dispatch(removeUser(data._id))
+            toast.success("User removed..")
         } catch (error) {
             toast.error("Something went wrong.")
         } finally {
@@ -48,24 +49,23 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     }
 
     const handleRole = async () => {
+        setLoading(true)
         if (data.role === "admin") {
-            console.log("user")
+            if (action) {
+                dispatch(updateRole({_id : data._id,role :"superAdmin"}))
+                toast.success(`${data.userName} promoted to Super Admin`)
+            } else {
+                dispatch(updateRole({_id : data._id,role :"user"}))
+                toast.success(`${data.userName} demoted to User`)
+            }
         } else {
-            console.log("admin")
+            dispatch(updateRole({_id : data._id,role :"admin"}))
+            toast.success(`${data.userName} promoted to Admin`)
         }
-        // dispatch(removeTaskLocal(data))
-        // try {
-        //     setLoading(true)
-        //     // await removeTask(data.id)
-        //     toast.success("Product deleted.")
-        // } catch (error) {
-        //     toast.error("Something went wrong.")
-        // } finally {
-        //     setLoading(false)
-        //     setOpen(false)
-        // }
+        setLoading(false)
+        setRoleModal(false)
+        
     }
-
 
     return (
         <>
@@ -74,6 +74,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
             onClose={()=>setOpen(false)} 
             onConfirm={onDelete} 
             loading={loading} />
+
+            <RoleAlertModal
+            isOpen={roleModal} 
+            onClose={()=>setRoleModal(false)} 
+            onConfirm={handleRole} 
+            loading={loading}
+            role={data.role}
+            action={action}
+            name={data.userName} />
+
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant='ghost' className="h-8 w-8 p-0">
@@ -85,24 +95,55 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={handleRole}>
-                        {
-                            data.role === "admin" 
-                            ? 
-                            <>
-                                <ChevronsDown className="h-4 w-4 mr-2" />
-                                Demote
-                            </>
-                            : 
-                            <>
-                                <ChevronsUp className="h-4 w-4 mr-2" />
+                    {
+                        data.role === "user" ?
+                        <DropdownMenuItem onClick={()=>setRoleModal(true)}>
+                            <div className="flex" onClick={() => setAction(true)}>
+                                <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
                                 Promote
-                            </>
+                            </div>
+                        </DropdownMenuItem>
+                        :
+                        <>
+                            <DropdownMenuItem onClick={() => setRoleModal(true)}>
+                                <div className="flex" onClick={() => setAction(true)}>
+                                    <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
+                                    Promote
+                                </div>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setRoleModal(true)}> 
+                                <div className="flex" onClick={() => setAction(false)}>
+                                    <ChevronsDown className="h-4 w-4 mr-2 text-red-500" />
+                                    Demote
+                                </div>
+                            </DropdownMenuItem>
+                        </>
+                    }
+                    
+                    {/* <DropdownMenuItem onClick={()=>setOpen1(true)}>
+                        {
+                            data.role === "user" 
+                            ? 
+                            <div className="flex" onClick={()=>setPromote(true)}>
+                                <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
+                                Promote
+                            </div>
+                            : 
+                            <div>
+                                <div className="flex">
+                                <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
+                                Promote
+                                </div>
+                                <div className="flex">
+                                <ChevronsDown className="h-4 w-4 mr-2 text-red-500" />
+                                Demote
+                                </div>
+                            </div>
                         }
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />
-                        Delete
+                        Remove
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

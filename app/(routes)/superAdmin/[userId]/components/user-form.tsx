@@ -25,20 +25,10 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux'
 import AccessProvider from '@/actions/accessProvider'
-import { createTask, removeTask, updateTask } from '@/actions/tasks'
-import { addTaskLocal, updateTaskLocal } from '@/app/redux/slice'
+import { addUserLocal, createUser } from '@/app/redux/slice'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>
-
-interface Task {
-    _id : string | string[],
-    taskName : string,
-    taskDescription : string,
-    assignedBy : string | undefined,
-    assignedTo : string,
-    status : boolean
-}
 
 interface User {
     _id : string,
@@ -47,74 +37,55 @@ interface User {
     role : string
 }
 
-interface TaskFormProps {
-    initialData: Task | null,
-    users : User[]
-}
-
 const formSchema = z.object({
-    taskName : z.string().min(1),
-    taskDescription : z.string().min(1),
-    assignedTo : z.string().min(1)
+    userName : z.string().min(1),
+    email : z.string().min(1),
+    role : z.string().min(1),
+    password : z.string().min(6)
 
 })
 
 
-export const TaskForm : React.FC<TaskFormProps> = ({
-    initialData,
-    users
+export const UserForm = ({
 }) => {
 
     const dispatch = useDispatch()
-
-    const {user} : any  = useSelector((data) => data)
+    const {users} : any = useSelector((data) => data)
 
     const router = useRouter()
-    const {taskId} = useParams()
-    const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const title = initialData ? "Edit task" : ""
-    const description = initialData ? "Edit a task" : "Add a new task"
-    const toastMessage = initialData ? "Task updated" : "Task created"
-    const action = initialData ? "Save changes" : "Create"
+    const title = "Create User"
+    const description = "Add a new user"
+    const toastMessage = "User created"
+    const action = "Create"
 
     const form = useForm<SettingsFormValues>({
-        resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            taskName : '',
-            taskDescription : '',
-            assignedTo : ''
-    } })
+        resolver : zodResolver(formSchema) 
+    })
 
 
     const onSubmit = async (data : SettingsFormValues) => {
+
         try {
             setLoading(true)
-            if (initialData) {
+            const exists = users.filter((user : User) => user.email === data.email)
 
-                const updatedTask = {
-                    taskId,
-                    taskName : data.taskName,
-                    taskDescription : data.taskDescription,
-                    assignedTo : data.assignedTo,
+            if (exists.length === 0) {
+                const newUser = {
+                    name : data.userName,
+                    email : data.email,
+                    role : data.role,
+                    password : data.password
                 }
-                dispatch(updateTaskLocal(updatedTask))
-                await updateTask(updatedTask)
-            } else {
-                const newtask = {
-                    taskName : data.taskName,
-                    taskDescription : data.taskDescription,
-                    assignedTo : data.assignedTo,
-                    assignedBy : user.email,
-                    status : false
-                }
-                dispatch(addTaskLocal(newtask))
-                await createTask(newtask)
+                dispatch(createUser(newUser))
+                router.push(`/superAdmin`)
+                toast.success(`${toastMessage}`)
+            }  else {
+                toast.error("User with this email already exists")
             }
+                
 
-            router.push(`/admin`)
-            toast.success(`${toastMessage}`)
         } catch (error) {
             toast.error("Something went wrong.")
         } finally {
@@ -122,45 +93,13 @@ export const TaskForm : React.FC<TaskFormProps> = ({
         }
     }
 
-    const onDelete = async () => {
-        try {
-            setLoading(true)
-            await removeTask(taskId)
-            router.push(`/addTasks`)
-            router.refresh()
-            toast.success("task deleted.")
-        } catch (error) {
-            toast.error("Something went wrong")
-        } finally {
-            setLoading(false)
-            setOpen(false)
-        }
-    }
-
     return (
         <>
-            <AlertModal 
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                onConfirm={onDelete}
-                loading={loading}
-            />
             <div className="flex items-center justify-between">
                 <Heading
                 title={title}
                 description={description}
                 />
-                {
-                    initialData &&
-                    <Button
-                        disabled={loading}
-                        variant="destructive"
-                        size="icon"
-                        onClick={() => setOpen(true)}
-                    >
-                        <Trash />
-                    </Button>
-                }
             </div>
             <Separator />
 
@@ -169,12 +108,12 @@ export const TaskForm : React.FC<TaskFormProps> = ({
                     <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
                         <FormField
                             control={form.control}
-                            name="taskName"
+                            name="userName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Label</FormLabel>
+                                    <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='task name' {...field} />
+                                        <Input disabled={loading} placeholder='user name' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -182,12 +121,25 @@ export const TaskForm : React.FC<TaskFormProps> = ({
                         />
                         <FormField
                             control={form.control}
-                            name="taskDescription"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Task</FormLabel>
+                                    <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='Put 3 pens in the bottle' {...field} />
+                                        <Input disabled={loading} placeholder='example@gmail.com' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Input disabled={loading} placeholder='***********' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -196,10 +148,10 @@ export const TaskForm : React.FC<TaskFormProps> = ({
 
                         <FormField
                             control={form.control}
-                            name="assignedTo"
+                            name="role"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Tasker</FormLabel>
+                                    <FormLabel>Role</FormLabel>
                                         <Select 
                                             disabled={loading} 
                                             onValueChange={field.onChange} 
@@ -210,16 +162,21 @@ export const TaskForm : React.FC<TaskFormProps> = ({
                                                 <SelectTrigger>
                                                     <SelectValue 
                                                         defaultValue={field.value}
-                                                        placeholder="Select Tasker"
+                                                        placeholder="Select role"
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {users.map(({_id,email, userName})=>(
-                                                    <SelectItem key={_id} value={email} >
-                                                        {userName}
+
+                                                    <SelectItem value="user" >
+                                                        User
                                                     </SelectItem>
-                                                ))}
+                                                    <SelectItem value="admin" >
+                                                        Admin
+                                                    </SelectItem>
+                                                    <SelectItem value="superAdmin" >
+                                                        Super Admin
+                                                    </SelectItem>
                                             </SelectContent>
                                         </Select>
                                     <FormMessage />

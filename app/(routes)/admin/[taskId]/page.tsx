@@ -15,8 +15,6 @@ const Admin = async ({
 }) => {
 
     const task  = await getTaskById(params.taskId)
-    const allUsers = await getUsers()
-    const users = allUsers.filter((user : User)  => user.role === "user")
 
     
     return ( 
@@ -24,7 +22,6 @@ const Admin = async ({
             <div  className="flex-1 p-8 pt-6 space-y-4">
                 <TaskForm 
                 initialData={task}
-                users={users}
                 />
             </div>
         </div>

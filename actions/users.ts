@@ -18,6 +18,10 @@ export const getUsers = async () => {
     const {data,status} = await axios(`http://localhost:5000/api/getUsers`)
     return data
 }
+export const getUserById = async (userId : string) => {
+    const {data,status} = await axios(`http://localhost:5000/api/getUserById?userId=${userId}`)
+    return data
+}
 
 export const getTaskById = async (taskId : string) => {
     const {data,status} = await axios(`http://localhost:5000/api/`)

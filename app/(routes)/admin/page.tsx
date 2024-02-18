@@ -32,23 +32,21 @@ interface Task {
 
 export default function ManageTasksRoot() {
 
+
     const data : any  = useSelector((data) => data)
     const dispatch = useDispatch()
 
-    const [tasks , setTasks] = useState([])
     useEffect(()=>{
         const getUser = async () =>{
             const user = await AccessProvider(data.user.accessToken)
-            if (!(user.user.role === "admin")) {
+            if (!(user?.user?.role === "admin")) {
                 dispatch(logoutUser())
             }
-            const tasks = await getAssignedTasks(data.user.email)
-            setTasks(tasks)
         }
         getUser()
     },[])
 
-    const formattedTasks : TaskColumn[] = tasks.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
+    const formattedTasks : TaskColumn[] = data.assignedTasks?.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
         id : _id,
         label : taskName,
         task : taskDescription,

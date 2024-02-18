@@ -13,20 +13,14 @@ interface UpdatedTask {
     assignedTo : string,
 }
 
-
-export const createTask = async (newTask : NewTask) => {
-    console.log(newTask)
-    const {status} =  await axios.post(`http://localhost:5000/api/createTask`,newTask)
-    return status
-}
 export const updateTask = async (updatedTask : UpdatedTask) => {
     const {status} =  await axios.patch(`http://localhost:5000/api/updateTask`,updatedTask)
     return status
 }
-export const updateMyTask = async (updatedTask : {id : string, status : boolean}) => {
-    const {status} =  await axios.patch(`http://localhost:5000/api/updateMyTask`,updatedTask)
-    return status
-}
+// export const updateMyTask = async (updatedTask : {id : string, status : boolean}) => {
+//     const {status} =  await axios.patch(`http://localhost:5000/api/updateMyTask`,updatedTask)
+//     return status
+// }
 
 export const removeTask = async (taskId : string | string[]) => {
     const {status} =  await axios.delete(`http://localhost:5000/api/removeTask?taskId=${taskId}`)

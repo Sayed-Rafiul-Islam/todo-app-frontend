@@ -1,9 +1,5 @@
 "use client"
 
-import { Plus } from "lucide-react"
-import { useRouter } from "next/navigation"
-
-import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
 import { TaskColumn, columns } from "./columns"
@@ -14,13 +10,13 @@ interface TaskClientProps {
 }
 
 export const TaskClient : React.FC<TaskClientProps> = ({data}) => {
-    const router = useRouter()
+
     const number = data.filter((task) => task.status === false)
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Undine Tasks ${(number.length)}`}
+                    title={`Undone Tasks ${(number.length)}`}
                     description="Manage Tasks for your store"
                 />
             </div>

@@ -1,6 +1,6 @@
 "use client"
 import AccessProvider from '@/actions/accessProvider'
-import { getMyTasks, logoutUser } from '@/app/redux/slice'
+import { logoutUser } from '@/app/redux/slice'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TaskColumn } from './components/columns'
@@ -23,7 +23,7 @@ export default function User() {
     useEffect(()=>{
         const getUser = async () =>{
             const user = await AccessProvider(data.user.accessToken)
-            if (!(user.user.role === "user")) {
+            if (!(user?.user?.role === "user")) {
                 dispatch(logoutUser())
             }
         }
