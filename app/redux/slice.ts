@@ -10,6 +10,7 @@ interface User {
     password ?: string,
     role ?: string,
     userName ?: string,
+    name ?: string,
     accessToken ?: string
 
 }
