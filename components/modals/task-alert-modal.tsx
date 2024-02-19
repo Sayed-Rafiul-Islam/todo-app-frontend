@@ -51,9 +51,8 @@ export const TaskAlertModal : React.FC<TaskAlertModalProps> = ({
             onClose={onClose}
         >
             <textarea className="bg-black bg-opacity-10 p-2 rounded-lg dark:text-white text-black focus:outline-none 
-            focus:border-b border-black dark:border-white" 
+            focus:border-b border-black dark:border-white w-11/12" 
             name="comment" 
-            cols={50} 
             rows={5}
             placeholder="Leave a comment (optional)"
             value={comment}
