@@ -1,6 +1,6 @@
 "use client"
 
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 
 import { 
@@ -18,7 +18,6 @@ import { removeTask } from "@/actions/tasks"
 import { removeTaskLocal } from "@/app/redux/slice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "@/app/redux/store"
-// import { deleteProduct } from "@/app/actions/products"
 
 interface CellActionProps {
     data : TaskColumn
@@ -33,11 +32,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
-
-    const onCopy = (id : string) => {
-        navigator.clipboard.writeText(id)
-        toast.success("Product id copied to the clipboard")
-    }
 
     const onDelete = async () => {
         try {
@@ -72,11 +66,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=> onCopy(data._id)}>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy id
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>router.push(`/admin/${data._id}`)}>
+                    <DropdownMenuItem disabled={data.status === true ? true: false} onClick={()=>router.push(`/admin/${data._id}`)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Update
                     </DropdownMenuItem>

@@ -186,7 +186,7 @@ const Slice = createSlice({
         //  user ----------------------------------------------------------------------------------------
         builder.addCase(createUser.fulfilled,(state : RootState, action : PayloadAction<User>) => {
             state.isLoading = false,
-            state.users.push(action.payload)      
+            state.users.unshift(action.payload)      
             localStorage.removeItem("users")
             localStorage.setItem("users", JSON.stringify(current(state.users)))    
         }),
