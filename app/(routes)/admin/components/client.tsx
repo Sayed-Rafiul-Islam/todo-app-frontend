@@ -8,6 +8,7 @@ import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
 import { TaskColumn, columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
+import { useEffect, useState } from "react"
 
 
 interface TaskClientProps {
@@ -16,6 +17,16 @@ interface TaskClientProps {
 
 export const TaskClient : React.FC<TaskClientProps> = ({data}) => {
     const router = useRouter()
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
 
     const doneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === true )
     const undoneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === false )
