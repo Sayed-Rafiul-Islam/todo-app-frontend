@@ -21,7 +21,7 @@ const Admin = async ({
         <div className="flex-col">
             <div  className="flex-1 p-8 pt-6 space-y-4">
                 <TaskForm 
-                initialData={task}
+                initialData={task?.length === 1 ? task[0] : task }
                 />
             </div>
         </div>

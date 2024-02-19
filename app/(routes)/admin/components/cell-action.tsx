@@ -42,7 +42,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const onDelete = async () => {
         try {
             setLoading(true)
-            await removeTask(data.id)
+            await removeTask(data._id)
             dispatch(removeTaskLocal(data))
             toast.success("Product deleted.")
         } catch (error) {
@@ -72,11 +72,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=> onCopy(data.id)}>
+                    <DropdownMenuItem onClick={()=> onCopy(data._id)}>
                         <Copy className="h-4 w-4 mr-2" />
                         Copy id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>router.push(`/admin/${data.id}`)}>
+                    <DropdownMenuItem onClick={()=>router.push(`/admin/${data._id}`)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Update
                     </DropdownMenuItem>

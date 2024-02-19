@@ -23,7 +23,8 @@ interface Task {
     assignedTo ?: string,
     status ?: boolean,
     taskId ?: string,
-    id ?: string
+    id ?: string,
+    comment ?: string
   }
 
 interface RootState {
@@ -130,26 +131,16 @@ const Slice = createSlice({
         // ---------------------------------------------------------------------------------------------------
 
         // tasks
-        addTaskLocal : (state : RootState, action : PayloadAction<Task>) => {
-            state.assignedTasks.push(action.payload)
+        updateTaskLocal : (state : RootState , action : PayloadAction<Task> ) => {
+            const index = state.assignedTasks.findIndex((task : Task ) => task._id === action.payload.taskId)
+            state.assignedTasks[index].taskName = action.payload.taskName
+            state.assignedTasks[index].taskDescription = action.payload.taskDescription
+            state.assignedTasks[index].assignedTo = action.payload.assignedTo
             localStorage.removeItem("assignedTasks")
             localStorage.setItem("assignedTasks", JSON.stringify(current(state.assignedTasks)))
         },
-        updateTaskLocal : (state : RootState , action : PayloadAction<Task> ) => {
-            const data = state.assignedTasks.filter((task : Task ) => task._id !== action.payload.taskId)
-            const updatedData = {
-                _id : action.payload.taskId,
-                taskName : action.payload.taskName,
-                taskDescription : action.payload.taskDescription,
-                assignedTo : action.payload.assignedTo
-            }
-            data.push(updatedData)
-            state.assignedTasks = data
-            localStorage.removeItem("assignedTasks")
-            localStorage.setItem("assignedTasks", JSON.stringify(data))
-        },
-        removeTaskLocal : (state : RootState, action : PayloadAction<Task[]> ) => {
-            const data = state.assignedTasks.filter((task : Task) => task._id !== action.payload[0]._id)
+        removeTaskLocal : (state : RootState, action : PayloadAction<Task> ) => {
+            const data = state.assignedTasks.filter((task : Task) => task._id !== action.payload._id)
             localStorage.removeItem("assignedTasks")
             localStorage.setItem("assignedTasks", JSON.stringify(data))
             state.assignedTasks = data
@@ -187,7 +178,7 @@ const Slice = createSlice({
         }),
         builder.addCase(createTask.fulfilled,(state : RootState, action : PayloadAction<Task>) => {
             state.isLoading = false,
-            state.assignedTasks.push(action.payload)      
+            state.assignedTasks.unshift(action.payload)    
             localStorage.removeItem("assignedTasks")
             localStorage.setItem("assignedTasks", JSON.stringify(current(state.assignedTasks)))    
         }),

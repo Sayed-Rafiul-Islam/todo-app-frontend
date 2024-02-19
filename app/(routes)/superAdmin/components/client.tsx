@@ -8,6 +8,7 @@ import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
 import { UserColumn, columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
+import { UserDataTable } from "@/components/ui/user-data-table"
 
 interface UserClientProps {
     data : UserColumn[]
@@ -29,7 +30,7 @@ export const UserClient : React.FC<UserClientProps> = ({data}) => {
                 </Button>
             </div>
             <Separator />
-            <DataTable searchKey="userName" columns={columns} data={data} />
+            <UserDataTable searchKey="userName" columns={columns} data={data} />
         </>
     )
 }

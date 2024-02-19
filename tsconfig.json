@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/redux/providers.js",
+    "app/redux/providers.ts",
     "app/redux/slice.ts"
 , "app/(routes)/user/components/cell-action.js"  ],
   "exclude": [

@@ -11,17 +11,18 @@ interface TaskClientProps {
 
 export const TaskClient : React.FC<TaskClientProps> = ({data}) => {
 
-    const number = data.filter((task) => task.status === false)
+    const doneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === true )
+    const undoneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === false )
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Undone Tasks ${(number.length)}`}
-                    description="Manage Tasks for your store"
+                    title={`Total Tasks ${(data.length)}`}
+                    description={`Finished ${doneTasks.length}, Unfinished ${undoneTasks.length}`}
                 />
             </div>
             <Separator />
-            <DataTable searchKey="label" columns={columns} data={data} />
+            <DataTable searchKey="label" columns={columns} doneTasks={doneTasks} undoneTasks={undoneTasks} data={data} />
         </>
     )
 }

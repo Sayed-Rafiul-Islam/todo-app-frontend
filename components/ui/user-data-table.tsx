@@ -25,41 +25,24 @@ import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "./dropdown-menu"
 import { ArrowDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
-interface DataTableProps<TData, TValue> {
+interface UserDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
   searchKey : string,
-  doneTasks: TData[],
-  undoneTasks: TData[],
 }
 
-export function DataTable<TData, TValue>({
+export function UserDataTable<TData, TValue>({
   columns,
   data,
   searchKey,
-  doneTasks,
-  undoneTasks
-}: DataTableProps<TData, TValue>) {
+}: UserDataTableProps<TData, TValue>) {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
       )
 
-    const [tableData, setTableData] = useState<TData[]>(data)
-    const [filter, setFilter] = useState('All Tasks')
-
-    useEffect(()=>{
-        if (filter === "Finished") {
-            setTableData(doneTasks)
-        } else if (filter === "Unfinished") {
-            setTableData(undoneTasks)
-        } else {
-            setTableData(data)
-        }
-    },[filter,data])
-
   const table = useReactTable({
-    data : tableData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -72,7 +55,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-        <div className="flex items-center py-4 justify-between">
+        <div className="flex items-center py-4">
             <Input
                 placeholder="Search"
                 value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -81,25 +64,6 @@ export function DataTable<TData, TValue>({
                 }
                 className="max-w-sm"
             />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant='ghost' className=" p-2">
-                        <ChevronDown size={15} className="mr-2" />
-                        {filter}
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={()=>setFilter("Finished")}>
-                        Finished
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>{setFilter("Unfinished")}}>
-                        Unfinished
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>{setFilter("All Tasks")}}>
-                        All Tasks
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
         </div>
         <div className="rounded-md border flex-wrap">
             <Table className="overflow-scroll">

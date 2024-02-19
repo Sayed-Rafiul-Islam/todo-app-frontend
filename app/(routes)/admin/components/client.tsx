@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { TaskColumn, columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
 
+
 interface TaskClientProps {
     data : TaskColumn[]
 }
@@ -16,20 +17,23 @@ interface TaskClientProps {
 export const TaskClient : React.FC<TaskClientProps> = ({data}) => {
     const router = useRouter()
 
+    const doneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === true )
+    const undoneTasks : TaskColumn[] = data.filter((task : TaskColumn) => task.status === false )
+
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Tasks ${(data.length)}`}
-                    description="Manage user tasks"
-                />
+                    title={`Total Tasks ${(data.length)}`}
+                    description={`Completed ${doneTasks.length}, Incompleted : ${undoneTasks.length}` }              
+                    />
                 <Button onClick={()=>router.push(`/admin/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable searchKey="tasker" columns={columns} data={data} />
+            <DataTable searchKey="tasker" columns={columns} doneTasks={doneTasks} undoneTasks={undoneTasks} data={data} />
         </>
     )
 }

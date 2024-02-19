@@ -92,7 +92,6 @@ export const TaskForm : React.FC<TaskFormProps> = ({
         try {
             setLoading(true)
             if (initialData) {
-
                 const updatedTask = {
                     taskId,
                     taskName : data.taskName,

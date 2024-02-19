@@ -7,16 +7,11 @@ import { TaskColumn } from './components/columns'
 import { TaskClient } from './components/client'
 import { logoutUser } from '@/app/redux/slice'
 import { AppDispatch } from '@/app/redux/store'
+import { Task } from '@/types'
+import { format } from 'date-fns'
 
 
-interface Task {
-  _id : string,
-  taskName : string,
-  taskDescription : string,
-  assignedBy : string,
-  assignedTo : string,
-  status : boolean
-}
+
 
 
 export default function ManageTasksRoot() {
@@ -35,12 +30,16 @@ export default function ManageTasksRoot() {
         getUser()
     },[data?.user?.role, dispatch])
 
-    const formattedTasks : TaskColumn[] = data.assignedTasks?.map(({_id,taskName,taskDescription,assignedTo,status} : Task) => ({
-        id : _id,
+
+
+    const formattedTasks : TaskColumn[] = data.assignedTasks?.map(({_id,taskName,taskDescription,assignedTo,status,comment,assignedDate} : Task) => ({
+        _id,
         label : taskName,
         task : taskDescription,
         tasker : assignedTo,
-        status
+        status,
+        comment,
+        date : format(assignedDate,"MMMM do, yyyy")
     }))
 
   return (
