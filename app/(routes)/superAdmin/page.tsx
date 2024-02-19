@@ -1,10 +1,11 @@
 "use client"
-import AccessProvider from "@/actions/accessProvider";
-import { getAllUsers, logoutUser } from "@/app/redux/slice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UserClient } from "./components/client";
 import { Dispatch } from "@reduxjs/toolkit";
+
+import AccessProvider from "@/actions/accessProvider";
+import { logoutUser } from "@/app/redux/slice";
+import { UserClient } from "./components/client";
 
 interface User {
     _id : string,

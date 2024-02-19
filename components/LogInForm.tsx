@@ -1,15 +1,12 @@
 "use client"
 
-import { loginUser } from "@/app/redux/slice"
-import { AppDispatch } from "@/app/redux/store"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-interface LoginProps {
-    email :  string,
-    password : string
-}
+
+import { loginUser } from "@/app/redux/slice"
+import { AppDispatch } from "@/app/redux/store"
 
 export default function LogInForm() {
 
@@ -41,7 +38,6 @@ export default function LogInForm() {
             } else {
                 setLoading(true)
                 setMessage("Login Successful")
-                // window.location.assign('/')
                 router.push("/")
             }
             

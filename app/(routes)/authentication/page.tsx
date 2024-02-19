@@ -1,7 +1,8 @@
 "use client"
+import { useState } from "react";
+
 import LogInForm from "@/components/LogInForm";
 import SignUpForm from "@/components/SignUpForm";
-import { useState } from "react";
 
 
 export default function Authentication() {
@@ -21,7 +22,6 @@ export default function Authentication() {
                 <SignUpForm />
                 <p>Already have an account? Go to <button onClick={()=>setAccount(true)} className="text-green-500">Log In</button></p>
               </div> 
-           
         }
   </div>
   )

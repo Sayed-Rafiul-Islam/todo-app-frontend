@@ -1,10 +1,12 @@
 "use client"
 
-import { signupUser } from "@/app/redux/slice"
-import { AppDispatch } from "@/app/redux/store"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
+
+
+import { signupUser } from "@/app/redux/slice"
+import { AppDispatch } from "@/app/redux/store"
 
 export default function SignUpForm() {
     const [loading,setLoading] = useState(true)
@@ -31,7 +33,6 @@ export default function SignUpForm() {
             else {
                 setLoading(true)
                 setMessage("User created successfully")
-                // window.location.assign('/')
                 router.push("/")
             }
         } 

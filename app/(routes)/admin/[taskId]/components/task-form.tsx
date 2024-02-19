@@ -4,17 +4,20 @@ import * as z from 'zod'
 import { Trash } from "lucide-react"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useParams, useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { AlertModal } from '@/components/modals/alert-modal'
-
+import { removeTask, updateTask } from '@/actions/tasks'
+import { createTask, removeTaskLocal, updateTaskLocal } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
 import { 
     Select, 
     SelectContent, 
@@ -22,12 +25,6 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-
-import { useDispatch, useSelector } from 'react-redux'
-import AccessProvider from '@/actions/accessProvider'
-import { removeTask, updateTask } from '@/actions/tasks'
-import { addTaskLocal, createTask, removeTaskLocal, updateTaskLocal } from '@/app/redux/slice'
-import { AppDispatch } from '@/app/redux/store'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>

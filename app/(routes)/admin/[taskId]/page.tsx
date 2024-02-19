@@ -1,12 +1,5 @@
 import { getTaskById } from "@/actions/tasks";
 import { TaskForm } from "./components/task-form";
-import { getUsers } from "@/actions/users";
-
-interface User {
-    email: string,
-    name: string,
-    role: string
-  }
 
 const Admin = async ({
     params

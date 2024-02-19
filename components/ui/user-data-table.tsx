@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   ColumnDef,
   flexRender,
@@ -9,9 +10,10 @@ import {
   ColumnFiltersState,
   getFilteredRowModel
 } from "@tanstack/react-table"
-import { useEffect, useState } from "react"
 
 
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -20,10 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "./dropdown-menu"
-import { ArrowDown, ChevronDown, MoreHorizontal } from "lucide-react"
+
 
 interface UserDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

@@ -2,21 +2,21 @@
 
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
 import { UserColumn, columns } from "./columns"
 import { UserDataTable } from "@/components/ui/user-data-table"
-import { useEffect, useState } from "react"
 
 interface UserClientProps {
     data : UserColumn[]
 }
 
 export const UserClient : React.FC<UserClientProps> = ({data}) => {
-    const router = useRouter()
 
+    const router = useRouter()
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(()=>{

@@ -2,22 +2,24 @@
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
 
+import { TaskColumn } from "./columns"
+import { Button } from "@/components/ui/button"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { removeTask } from "@/actions/tasks"
+import { removeTaskLocal } from "@/app/redux/slice"
+import { AppDispatch } from "@/app/redux/store"
 import { 
     DropdownMenu, 
     DropdownMenuContent, 
     DropdownMenuItem, 
     DropdownMenuLabel, 
-    DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { TaskColumn } from "./columns"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { AlertModal } from "@/components/modals/alert-modal"
-import { removeTask } from "@/actions/tasks"
-import { removeTaskLocal } from "@/app/redux/slice"
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "@/app/redux/store"
+    DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu"
+
 
 interface CellActionProps {
     data : TaskColumn
@@ -26,8 +28,6 @@ interface CellActionProps {
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const dispatch = useDispatch<AppDispatch>()
-
-    
     const router = useRouter()
 
     const [open, setOpen] = useState(false)

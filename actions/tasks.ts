@@ -1,11 +1,5 @@
 import axios from "axios"
 
-interface NewTask {
-    taskName : string,
-    taskDescription : string,
-    assignedBy : string| undefined,
-    assignedTo : string,
-}
 interface UpdatedTask {
     taskId : string | string[],
     taskName : string,

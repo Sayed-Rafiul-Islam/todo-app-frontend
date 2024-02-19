@@ -3,6 +3,8 @@
 import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// interfaces ----------------------------------------------------------------
+
 interface User {
     _id ?: string,
     email ?: string,
@@ -35,10 +37,18 @@ interface RootState {
     isLoading ?: boolean
   }
 
+//   --------------------------------------------------------------------------------
+
+// localstorage initiations----------------------------------------------------------
+
   const userJson = typeof window !== "undefined" && localStorage.getItem("user")
   const assignedTasksJson = typeof window !== "undefined" && localStorage.getItem("assignedTasks")
   const myTasksJson = typeof window !== "undefined" && localStorage.getItem("myTasks")
   const usersJson = typeof window !== "undefined" && localStorage.getItem("users")
+//   ----------------------------------------------------------------------------------------------------
+
+
+
 
 const { createSlice, current } = require("@reduxjs/toolkit");
 
@@ -97,6 +107,8 @@ export const getMyTasks = createAsyncThunk("getMyTasks", async (email : string) 
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 
+// user 
+
 export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
     const {data,status} = await axios(`${process.env.NEXT_PUBLIC_API}/getUsers`)
     localStorage.removeItem("users")
@@ -119,6 +131,7 @@ export const removeUser = createAsyncThunk("removeUser", async (_id : string) =>
     return data
 })
 
+//   -------------------------------------------------------------------------------------------------------
 
 const Slice = createSlice({
     name : "addUserSlice",

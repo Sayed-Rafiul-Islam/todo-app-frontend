@@ -1,35 +1,30 @@
 "use client"
 
-import { ChevronsDown, ChevronsUp, Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { ChevronsDown, ChevronsUp, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
 
+import { UserColumn } from "./columns"
+import { Button } from "@/components/ui/button"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { removeUser, updateRole } from "@/app/redux/slice"
+import { RoleAlertModal } from "@/components/modals/role-alert-modal"
+import { AppDispatch } from "@/app/redux/store"
 import { 
     DropdownMenu, 
     DropdownMenuContent, 
     DropdownMenuItem, 
     DropdownMenuLabel, 
-    DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { UserColumn } from "./columns"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { AlertModal } from "@/components/modals/alert-modal"
-import { removeTask } from "@/actions/tasks"
-import { removeTaskLocal, removeUser, updateRole } from "@/app/redux/slice"
-import { useDispatch } from "react-redux"
-import { RoleAlertModal } from "@/components/modals/role-alert-modal"
-import { AppDispatch } from "@/app/redux/store"
+    DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu"
 
 interface CellActionProps {
     data : UserColumn
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
-
     const dispatch = useDispatch<AppDispatch>()
-
-    
-    const router = useRouter()
 
     const [open, setOpen] = useState(false)
     const [roleModal, setRoleModal] = useState(false)
@@ -120,28 +115,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                             </DropdownMenuItem>
                         </>
                     }
-                    
-                    {/* <DropdownMenuItem onClick={()=>setOpen1(true)}>
-                        {
-                            data.role === "user" 
-                            ? 
-                            <div className="flex" onClick={()=>setPromote(true)}>
-                                <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
-                                Promote
-                            </div>
-                            : 
-                            <div>
-                                <div className="flex">
-                                <ChevronsUp className="h-4 w-4 mr-2 text-green-500" />
-                                Promote
-                                </div>
-                                <div className="flex">
-                                <ChevronsDown className="h-4 w-4 mr-2 text-red-500" />
-                                Demote
-                                </div>
-                            </div>
-                        }
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />
                         Remove

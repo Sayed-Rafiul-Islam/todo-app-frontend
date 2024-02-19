@@ -2,9 +2,11 @@
 
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllUsers, getAssignedTasks, getMyTasks } from './redux/slice'
-import { AppDispatch } from './redux/store'
+
 import { useEffect } from 'react'
+
+import { getAllUsers, getAssignedTasks, getMyTasks } from '@/app/redux/slice'
+import { AppDispatch } from '@/app/redux/store'
 
 
 export default function RootPage() {

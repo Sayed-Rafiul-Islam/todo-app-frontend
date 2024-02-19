@@ -1,14 +1,14 @@
 "use client"
 
 import { Plus } from "lucide-react"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/Heading"
 import { Separator } from "@/components/ui/separator"
 import { TaskColumn, columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
-import { useEffect, useState } from "react"
 
 
 interface TaskClientProps {

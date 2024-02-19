@@ -1,11 +1,11 @@
 "use client"
-import { logoutUser } from "@/app/redux/slice";
-import { AppDispatch } from "@/app/redux/store";
-import { cn } from "@/lib/utils";
-
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
+
+import { logoutUser } from "@/app/redux/slice";
+import { AppDispatch } from "@/app/redux/store";
+import { cn } from "@/lib/utils";
 
 const LogOut = () => {
     const pathname = usePathname()

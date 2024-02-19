@@ -1,6 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+
 import { CellAction } from "./cell-action"
 
 
@@ -30,7 +31,10 @@ export const columns: ColumnDef<TaskColumn>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell : ({row}) => <p className={row.original.status ? "text-green-500 font-bold" : "text-red-500 font-bold"}>{row.original.status ? "Done" : "Undone"}</p>
+    cell : ({row}) => <p className={row.original.status 
+      ? "text-green-500 font-bold" 
+      : "text-red-500 font-bold"}
+      >{row.original.status ? "Done" : "Undone"}</p>
   },
   {
     accessorKey: "comment",

@@ -1,18 +1,16 @@
 "use client"
 import { format } from 'date-fns'
-import AccessProvider from '@/actions/accessProvider'
-import { logoutUser } from '@/app/redux/slice'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import AccessProvider from '@/actions/accessProvider'
+import { logoutUser } from '@/app/redux/slice'
 import { TaskColumn } from './components/columns'
 import { TaskClient } from './components/client'
 import { AppDispatch } from '@/app/redux/store'
 import { Task } from '@/types'
 
-
-
 export default function User() {
-
     const data : any = useSelector((data) => data)
     const dispatch = useDispatch<AppDispatch>()
 
